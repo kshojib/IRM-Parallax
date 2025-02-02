@@ -3,7 +3,7 @@
  * Plugin Name: IRM Parallax
  * Description: A custom Elementor widget for a parallax effect with repeater fields.
  * Version: 1.0
- * Author: Your Name
+ * Author: Shojib Khan
  */
 
 if (!defined('ABSPATH')) {
