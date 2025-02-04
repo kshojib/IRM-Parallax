@@ -42,6 +42,15 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
         );
 
         $repeater->add_control(
+            'thumbnail',
+            [
+                'label' => esc_html__('Thumbnail', 'irm-parallax'),
+                'type' => \Elementor\Controls_Manager::MEDIA,
+                'default' => ['url' => \Elementor\Utils::get_placeholder_image_src()],
+            ]
+        );
+
+        $repeater->add_control(
             'subtitle',
             [
                 'label' => esc_html__('Subtitle', 'irm-parallax'),
@@ -141,6 +150,15 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
         echo '<section class="projects">';
         echo '<div class="projects__list">';
         foreach ($settings['items'] as $item) {
+            // if no image is set, skip this item
+            if (empty($item['image']['url'])) {
+                continue;
+            }
+            $thumbail = $item['thumbnail']['url'];
+            // if no thumbnail is set & not default image, use the image as the thumbnail
+            if (empty($thumbail) || $thumbail === \Elementor\Utils::get_placeholder_image_src()) {
+                $thumbail = $item['image']['url'];
+            }
             echo '<div class="project" style="background-image: url(' . esc_url($item['image']['url']) . ');">';
             echo '<div class="text-wrapper">';
             echo '<a href="' . esc_url($item['url']) . '" class="text">';
@@ -151,7 +169,7 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
             echo '</a>';
             echo '</div>';
             echo '<div class="layer-thumbnail">';
-            echo '<img src="' . esc_url($item['image']['url']) . '" alt="">';
+            echo '<img src="' . esc_url($thumbail) . '" alt="">';
             echo '</div>';
             echo '</div>';
         }

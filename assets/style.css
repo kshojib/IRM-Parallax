@@ -127,6 +127,11 @@ html {
     transform-origin: left center;
 }
 
+html[dir="rtl"] .layer-thumbnail {
+	left: 0;
+	right: unset;
+}
+
 @media (max-width: 768px) {
     .projects {
         bottom: 0;
