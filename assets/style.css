@@ -7,22 +7,6 @@
 html {
     scroll-behavior: smooth;
 }
-
-.projects {
-    height: 100vh;
-    left: 0;
-    position: relative; /* Изменено на relative */
-    right: 0;
-    top: 0;
-    overflow: hidden; /* Добавлено */
-}
-
-.projects__list{
-  position: relative; /* Добавлено */
-  width: 100%;
-  height: 100%;
-}
-
 .project {
     height: 100vh;
     width: 100%;
@@ -190,5 +174,106 @@ html[dir="rtl"] .layer-thumbnail {
 
     .layer-thumbnail img {
         width: 100%;
+    }
+}
+
+.project__image {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+    /* background-repeat: no-repeat; */
+    background-position-x: center;
+    background-size: cover;
+}
+
+.project__image-pin {
+    height: 100%;
+    width: 100%;
+}
+
+.project__image-inner {
+    top: -50%;
+    right: 13vw;
+    transform: translateY(-50%);
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 30vw;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+html[dir="rtl"] .project__image-inner {
+    left: 13vw;
+    right: unset;
+}
+
+.project__image .pin-spacer {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.project__image:first-child .project__image-inner {
+    top: 50%;
+}
+
+.project__link {
+    position: absolute;
+    top: -50%;
+    left: 13vw;
+    transform: translateY(-50%);
+    width: 40vw;
+    color: #fff;
+    text-decoration: none;
+}
+
+html[dir="rtl"] .project__link {
+    left: unset;
+    right: 13vw;
+}
+
+.project__image:first-child .project__link {
+    top: 50%;
+}
+
+.project__subtitle {
+    font-size: 1.1vw;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: 2vw;
+}
+
+.project__heading {
+    font-size: 6.7vw;
+    font-weight: 300;
+    letter-spacing: -0.2vw;
+    line-height: 1;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .project__link {
+        left: 5.3vw;
+        right: 5.3vw;
+        top: 45.3vw !important;
+        width: unset;
+    }
+
+    .project__subtitle {
+        font-size: 3.7vw;
+    }
+
+    .project__heading {
+        font-size: 10.6vw;
+    }
+
+    .project__image-inner {
+        bottom: 20vw;
+        left: 5.3333333333vw !important;
+        right: 5.3333333333vw !important;
+        top: auto !important;
+        width: unset;
+        transform: unset;
     }
 }

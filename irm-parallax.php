@@ -2,7 +2,7 @@
 /**
  * Plugin Name: IRM Parallax
  * Description: A custom Elementor widget for a parallax effect with repeater fields.
- * Version: 1.0
+ * Version: 2.0
  * Author: Shojib Khan
  */
 
@@ -25,6 +25,12 @@ function irm_parallax_check_elementor() {
 function irm_parallax_enqueue_scripts() {
     wp_enqueue_style('irm-normalize', plugin_dir_url(__FILE__) . 'assets/normalize.css', [], '1.0.0');
     wp_enqueue_style('irm-style', plugin_dir_url(__FILE__) . 'assets/style.css', [], '1.0.0');
+    // gsap.min
+    wp_enqueue_script('irm-gsap', plugin_dir_url(__FILE__) . 'assets/gsap.min.js', [], '1.0.0', true);
+
+    //ScrollTrigger.min
+    wp_enqueue_script('irm-scrolltrigger', plugin_dir_url(__FILE__) . 'assets/ScrollTrigger.min.js', [], '1.0.0', true);
+
     wp_enqueue_script('irm-main', plugin_dir_url(__FILE__) . 'assets/main.js', ['jquery'], '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'irm_parallax_enqueue_scripts');
