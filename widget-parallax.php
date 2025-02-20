@@ -36,11 +36,12 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
             'background_type',
             [
                 'label' => esc_html__( 'Background Type', 'irm-parallax' ),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
-                'label_on' => esc_html__( 'Image', 'irm-parallax' ),
-                'label_off' => esc_html__( 'Video', 'irm-parallax' ),
-                'return_value' => 'image',
+                'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => 'image',
+				'options' => [
+					'image'  => esc_html__( 'Image', 'irm-parallax' ),
+					'video' => esc_html__( 'Video', 'irm-parallax' ),
+				],
             ]
         );
 
@@ -61,11 +62,8 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
             [
                 'label' => esc_html__('Video', 'irm-parallax'),
                 'type' => \Elementor\Controls_Manager::MEDIA,
-                // 'default' => ['url' => 'https://www.youtube.com/watch?v=7e90gBu4pas'],
-
                 'condition' => [
-                    // not image
-                    'background_type!' => 'image',
+                    'background_type' => 'video',
                 ],
                 // allow only mp4, webm, ogg
                 'media_type' => 'video',
