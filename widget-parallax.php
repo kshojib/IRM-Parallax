@@ -38,10 +38,10 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Background Type', 'irm-parallax' ),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => 'image',
-				'options' => [
-					'image'  => esc_html__( 'Image', 'irm-parallax' ),
-					'video' => esc_html__( 'Video', 'irm-parallax' ),
-				],
+                'options' => [
+                    'image'  => esc_html__( 'Image', 'irm-parallax' ),
+                    'video' => esc_html__( 'Video', 'irm-parallax' ),
+                ],
             ]
         );
 
@@ -69,6 +69,33 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
                 'media_type' => 'video',
                 'library' => 'uploaded',
 
+            ]
+        );
+
+         $repeater->add_control(
+            'video_autoplay',
+            [
+                'label' => esc_html__('Video Autoplay', 'irm-parallax'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => 'scroll',
+                'options' => [
+                    'scroll' => esc_html__('On Scroll', 'irm-parallax'),
+                    'load' => esc_html__('On Load', 'irm-parallax'),
+                ],
+                'condition' => [
+                    'background_type' => 'video',
+                ],
+            ]
+        );
+        $repeater->add_control(
+            'overlay_color',
+            [
+                'label' => esc_html__('Overlay Color', 'irm-parallax'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '', //  Пустое значение по умолчанию
+                'selectors' => [
+                    '{{CURRENT_ITEM}} .project__image-overlay' => 'background-color: {{VALUE}};',
+                ],
             ]
         );
 
@@ -177,46 +204,43 @@ class IRM_Parallax_Widget extends \Elementor\Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-
+    
         echo '<section class="projects">';
         foreach ($settings['items'] as $item) {
-            // if no image is set, skip this item
+            // if no image or video is set, skip this item
             if (empty($item['image']['url']) && empty($item['video']['url'])) {
                 continue;
             }
             $background_type = $item['background_type'];
-
-            $thumbail = $item['thumbnail']['url'];
-
+    
             $thumbnail = $item['thumbnail']['url'] ?? '';
-            
+    
             if (empty($thumbnail) || $thumbnail === \Elementor\Utils::get_placeholder_image_src()) {
                 $thumbnail = $item['image']['url'] ?? '';
             }
-            
-            echo '<div class="project__image"';
-            if (!empty($item['image']['url'])) {
-                echo ' style="background-image: url(' . esc_url($item['image']['url']) . ');"';
-            }
-            echo '>';
-            
+    
+            echo '<div class="project__image" data-autoplay="' . esc_attr($item['video_autoplay']) . '">';
+            echo '<div class="project__image-bg"></div>';
+            //  Используем overlay_color напрямую
+            echo '<div class="project__image-overlay" style="background-color: ' . esc_attr($item['overlay_color']) . ';"></div>';
+    
             // Video handling
             if (!empty($item['video']['url'])) {
                 echo '<video loop muted playsinline style="object-fit: cover; width: 100%; height: auto; aspect-ratio: 4 / 3; position: absolute; top: 0; left: 0; z-index: -1;">';
                 echo '<source src="' . esc_url($item['video']['url']) . '" type="video/mp4">';
                 echo '</video>';
             }
-            
+    
             echo '<div class="project__image-pin">';
             echo '<a href="' . esc_url($item['url']) . '" class="project__link">';
             echo '<p class="project__subtitle">' . wp_kses($item['subtitle'], ['br' => []]) . '</p>';
             echo '<p class="project__heading">' . wp_kses($item['title'], ['br' => []]). '</p>';
             echo '</a>';
-            
+    
             if (!empty($thumbnail)) {
                 echo '<div class="project__image-inner" style="background-image: url(' . esc_url($thumbnail) . ');"></div>';
             }
-            
+    
             echo '</div>'; // .project__image-pin
             echo '</div>'; // .project__image
         }
